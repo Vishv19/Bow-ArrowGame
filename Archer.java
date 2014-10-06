@@ -1,14 +1,8 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
-import java.applet.Applet;
-
 /**
  *
  * @author Vishv Brahmbhatt
  */
+
 import java.awt.*;
 import java.awt.event.*;
 import java.applet.*;
@@ -16,13 +10,13 @@ import java.applet.*;
 public class Archer extends Applet implements Runnable,KeyListener{
 
     Thread t=null;
-    int maxx=800, maxy=600;
-    boolean dir=false,arrowmove=false,vermove=false;
+    int maxX=800, maxY=600;
+    boolean dir=false, arrowMove=false, verMove=false;
     boolean stopFlag=false;
-    int posx=60,posy=50,diffy=0;
-    int speedx=30,speedy=10;   //speedx=arrow speed; speedy=target speed; Direct variation
-    int programspeed=50;    //Inverse Variation
-    int dimx=20,dimy=100,adimx=50;
+    int posX=60, posY=50, diffY=0;
+    int speedX=30, speedY=10;   //speedX=arrow speed; speedY=target speed; Direct variation
+    int programSpeed=50;    //Inverse Variation
+    int dimX=20, dimY=100, adimX=50;
     int count=0;
 
 
@@ -31,14 +25,14 @@ public class Archer extends Applet implements Runnable,KeyListener{
 
     public void keyPressed(KeyEvent e) {
         if (e.getKeyCode()==KeyEvent.VK_ENTER)
-            if (!vermove) arrowmove=true;
+            if (!verMove) arrowMove=true;
     }
 
     public void keyReleased(KeyEvent e) {
     }
 
     public void start(){
-       resize(maxx,maxy);
+       resize(maxX,maxY);
        addKeyListener(this);
        requestFocus();
        setForeground(Color.RED);
@@ -53,30 +47,30 @@ public class Archer extends Applet implements Runnable,KeyListener{
         try
         {
             if (stopFlag) break;
-            if (posy>=maxy-dimy||posy<=0)
+            if (posY>=maxY-dimY||posY<=0)
                 dir=!dir;
             if (dir)
-                posy=posy+speedy;
+                posY=posY+speedY;
             else
-                posy=posy-speedy;
-            if (posx>=maxx)
+                posY=posY-speedY;
+            if (posX>=maxX)
             {
-                arrowmove=false;
-                posx=60;
+                arrowMove=false;
+                posX=60;
             }
-            if (arrowmove)
-            if (posx>=maxx-60&&posx<=maxx-30)
-                if (posy<=maxy/2&&posy+dimy>=maxy/2)
+            if (arrowMove)
+            if (posX>=maxX-60&&posX<=maxX-30)
+                if (posY<=maxY/2&&posY+dimY>=maxY/2)
                 {
-                    arrowmove=false;
-                    posx=maxx-60;
-                    vermove=true;
-                    diffy=maxy/2-posy;
+                    arrowMove=false;
+                    posX=maxX-60;
+                    verMove=true;
+                    diffY=maxY/2-posY;
                     count=0;
                 }
-            if (arrowmove)
-                posx=posx+speedx;
-            Thread.sleep(programspeed);
+            if (arrowMove)
+                posX=posX+speedX;
+            Thread.sleep(programSpeed);
             repaint();
         }
         catch(InterruptedException ex) {}
@@ -90,23 +84,23 @@ public class Archer extends Applet implements Runnable,KeyListener{
 
     public void paint(Graphics g)
     {
-        g.fillRect(maxx-60,posy,30,dimy);
+        g.fillRect(maxX-60,posY,30,dimY);
         {
-            int my=maxy/2;
-            if (vermove)
-                my = posy + diffy;
-            g.drawLine(posx, my, posx-5, my-5);
-            g.drawLine(posx, my, posx-5, my+5);
-            g.drawLine(posx,my,posx-adimx,my);
-            g.drawLine(posx-adimx, my, posx-5-adimx, my-5);
-            g.drawLine(posx-adimx, my, posx-5-adimx, my+5);
-            if (vermove)
+            int my=maxY/2;
+            if (verMove)
+                my = posY + diffY;
+            g.drawLine(posX, my, posX-5, my-5);
+            g.drawLine(posX, my, posX-5, my+5);
+            g.drawLine(posX,my,posX-adimX,my);
+            g.drawLine(posX-adimX, my, posX-5-adimX, my-5);
+            g.drawLine(posX-adimX, my, posX-5-adimX, my+5);
+            if (verMove)
             {
                 count++;
                 if (count>50)
                 {
-                        vermove=false;
-                        posx=60;
+                        verMove=false;
+                        posX=60;
                 }
             }
         }
